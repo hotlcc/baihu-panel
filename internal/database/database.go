@@ -2,6 +2,8 @@ package database
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"time"
 
 	"github.com/engigu/baihu-panel/internal/logger"
@@ -58,8 +60,18 @@ func Init(cfg *Config) error {
 		return fmt.Errorf("unsupported database type: %s", cfg.Type)
 	}
 
+	newLogger := gormlogger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		gormlogger.Config{
+			SlowThreshold:             time.Millisecond * 500, // 慢 SQL 阈值，默认是 200ms，这里改为 500ms
+			LogLevel:                  gormlogger.Warn, // 日志级别
+			IgnoreRecordNotFoundError: true,            // 忽略 ErrRecordNotFound（找不到记录）错误
+			Colorful:                  true,            // 禁用彩色打印
+		},
+	)
+
 	DB, err = gorm.Open(dialector, &gorm.Config{
-		Logger: gormlogger.Default.LogMode(gormlogger.Warn),
+		Logger: newLogger,
 		NowFunc: func() time.Time {
 			return time.Now().In(loc)
 		},
