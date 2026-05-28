@@ -8,7 +8,7 @@ const { URL } = require('url');
 function request(urlStr, method = 'GET', data = null) {
     const token = process.env.BHPKG_OPENAPI_TOKEN || process.env.OPENAPI_TOKEN || process.env.BHPKG_NOTIFY_TOKEN;
     if (!token) {
-        throw new Error("没有正确配置或缺少 BHPKG_OPENAPI_TOKEN 等环境变量，无法使用任务管理操作");
+        throw new Error(`没有正确配置或缺少 BHPKG_OPENAPI_TOKEN 环境变量以使用 task 函数。请在白虎面板的任务设置中配置这些 Key。`);
     }
 
     const parsedUrl = new URL(urlStr);

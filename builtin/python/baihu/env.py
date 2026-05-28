@@ -6,7 +6,7 @@ import urllib.error
 def _get_headers():
     token = os.environ.get("BHPKG_OPENAPI_TOKEN") or os.environ.get("OPENAPI_TOKEN") or os.environ.get("BHPKG_NOTIFY_TOKEN")
     if not token:
-        raise RuntimeError("没有正确配置或缺少 BHPKG_OPENAPI_TOKEN 等环境变量，无法使用环境管理操作")
+        raise RuntimeError("没有正确配置或缺少 BHPKG_OPENAPI_TOKEN 环境变量以使用 env 函数。请在白虎面板的任务设置中配置这些 Key。")
     return {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {token}"
