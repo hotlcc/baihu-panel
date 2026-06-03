@@ -139,6 +139,8 @@ RUN chmod +x docker-entrypoint.sh \
     && echo "set encoding=utf-8" >> /etc/vim/vimrc \
     && ln -sf /app/baihu /usr/local/bin/baihu
 
+ENV MISE_TRUSTED_CONFIG_PATHS=/app/data/scrips
+
 EXPOSE 8052
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
